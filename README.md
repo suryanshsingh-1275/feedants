@@ -71,3 +71,11 @@ Scan the QR with Expo Go (phone, same WiFi), or press w for browser.
 
 Flow: Sign up as organizer, create a competition, sign up or log in as participant, see it in the list, open details, live countdown, spots progress, dates, tabs, Register/Upload button that changes based on registration state and the competition's current phase.
 
+## Assumptions
+
+- One participant can register once per competition, enforced by a unique DB index, not just a UI check.
+- Registration closes at registerBefore even if spots remain.
+- Submission only works if registered, and only within the submission window.
+- Create-competition dates are entered as plain text (YYYY-MM-DD HH:MM) rather than a native date picker, to avoid extra native dependencies.
+- Judge and winner photos are optional; UI hides the video link if empty.
+
