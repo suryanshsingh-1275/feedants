@@ -79,3 +79,11 @@ Flow: Sign up as organizer, create a competition, sign up or log in as participa
 - Create-competition dates are entered as plain text (YYYY-MM-DD HH:MM) rather than a native date picker, to avoid extra native dependencies.
 - Judge and winner photos are optional; UI hides the video link if empty.
 
+## Technical decisions
+
+- Status is computed, never stored. getLifecycleStatus() derives the registration or submission phase from the four stored dates on every request, so it can never drift out of sync.
+- Concurrency-safe registration. The last-spot race is handled with one atomic findOneAndUpdate that checks registerBefore and bookedSpots < totalSpots and increments in the same operation. MongoDB guarantees this is atomic per document, so two simultaneous requests for the last spot can't both succeed. A unique index on competition plus user backs up duplicate prevention, with a rollback of the increment if that insert ever fails.
+- Server-computed countdown. registrationClosesInMs comes from the server; the client just ticks it down locally between refetches.
+- Simple opaque token instead of JWT, sufficient for this scope.
+- No navigation library. A single screen state string in App.js, since this is a first React Native project, keeps setup to install and start.
+
