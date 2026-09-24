@@ -94,3 +94,14 @@ Flow: Sign up as organizer, create a competition, sign up or log in as participa
 - No file upload. submissionUrl is a pasted link, not an upload pipeline.
 - No token expiry or refresh. Valid until logout.
 
+## What I would improve for production
+
+- JWT with short-lived and refresh tokens, or signed sessions, plus rate limiting on auth and registration.
+- MongoDB transactions if the data model grows past single-document atomicity.
+- Real file or video upload with S3 and signed URLs instead of link fields.
+- Native date picker on the create-competition form.
+- Pagination and search on the competitions list.
+- Push notifications for registration-closing-soon and results-announced.
+- A request validation library such as Zod or Joi instead of manual checks.
+- React Navigation once the app grows past five screens.
+- Tests for getLifecycleStatus, the concurrent-registration race, and API integration.
