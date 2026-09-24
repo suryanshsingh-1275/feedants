@@ -31,3 +31,8 @@ cd backend
 npm install
 npm run seed
 npm run dev
+
+
+`.env`:
+MONGO_URI=mongodb://localhost:27017/feedants
+PORT=5050
