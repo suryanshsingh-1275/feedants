@@ -87,3 +87,10 @@ Flow: Sign up as organizer, create a competition, sign up or log in as participa
 - Simple opaque token instead of JWT, sufficient for this scope.
 - No navigation library. A single screen state string in App.js, since this is a first React Native project, keeps setup to install and start.
 
+## Trade-offs
+
+- bookedSpots is a denormalized counter for fast reads, kept in sync via atomic increment and rollback rather than a transaction. A periodic reconciliation job would be a good production safety net.
+- No pagination on the competitions list.
+- No file upload. submissionUrl is a pasted link, not an upload pipeline.
+- No token expiry or refresh. Valid until logout.
+
