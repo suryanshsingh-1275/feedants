@@ -57,3 +57,17 @@ Demo logins: organizer@feedants.com / participant@feedants.com, both password123
 
 Auth is a simple opaque token (random hex, stored on the user, sent as Authorization: Bearer) instead of JWT — enough to identify users and gate organizer-only routes for this scope.
 
+
+## 2. Frontend (Expo)
+cd frontend
+npm install
+
+Edit src/api.js:
+export const API_URL = 'http://<your-LAN-IP>:5050/api';
+npx expo start
+
+
+Scan the QR with Expo Go (phone, same WiFi), or press w for browser.
+
+Flow: Sign up as organizer, create a competition, sign up or log in as participant, see it in the list, open details, live countdown, spots progress, dates, tabs, Register/Upload button that changes based on registration state and the competition's current phase.
+
