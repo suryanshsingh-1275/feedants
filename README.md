@@ -36,3 +36,24 @@ npm run dev
 `.env`:
 MONGO_URI=mongodb://localhost:27017/feedants
 PORT=5050
+
+
+
+Demo logins: organizer@feedants.com / participant@feedants.com, both password123.
+
+### API
+
+| Method | Route | Auth | Notes |
+|---|---|---|---|
+| POST | /api/auth/signup | — | {name,email,password,role} |
+| POST | /api/auth/login | — | returns {token,user} |
+| POST | /api/auth/logout | token | clears session token |
+| GET | /api/competitions | — | list, computed status + spotsLeft |
+| POST | /api/competitions | token (organizer) | create a competition |
+| GET | /api/competitions/:id | optional token | full details payload |
+| POST | /api/competitions/:id/register | token (participant) | atomic, blocks overbooking/duplicates/late registration |
+| POST | /api/competitions/:id/submit | token (participant) | {submissionUrl}, only in submission window |
+| GET | /api/competitions/:id/registrations | token (organizer, owner) | for judging |
+
+Auth is a simple opaque token (random hex, stored on the user, sent as Authorization: Bearer) instead of JWT — enough to identify users and gate organizer-only routes for this scope.
+
