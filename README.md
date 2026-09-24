@@ -23,3 +23,11 @@ SignupScreen.js role picker: organizer / participant
 CompetitionListScreen.js shows "+ Create Competition" for organizers
 CreateCompetitionScreen.js organizer-only form, posts to the API
 CompetitionDetailsScreen.js the screen from the design
+
+
+## 1. Backend
+
+cd backend
+npm install
+npm run seed
+npm run dev
