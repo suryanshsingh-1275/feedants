@@ -1,15 +1,7 @@
 const Competition = require('../models/Competition');
 const Registration = require('../models/Registration');
 
-// This is the one endpoint where "thousands of concurrent users" actually matters:
-// many people can hit /register on the same competition in the same millisecond
-// when only 1 spot is left. We must never let bookedSpots exceed totalSpots.
-//
-// Approach: a single atomic findOneAndUpdate that only succeeds if the
-// competition still has room AND registration is still open, incrementing
-// bookedSpots in the same operation. MongoDB guarantees this check-and-increment
-// is atomic per document, so two simultaneous requests can't both "see" the
-// last spot free — only one findOneAndUpdate call wins it.
+
 exports.register = async (req, res) => {
   const { id } = req.params;
 
