@@ -22,38 +22,47 @@ export default function CreateCompetitionScreen({ onCreated, onBack }) {
   const [judgeTitle, setJudgeTitle] = useState('');
   const [busy, setBusy] = useState(false);
 
-  const handleCreate = async () => {
-    if (!title || !prizePool || !entryFee || !totalSpots || !registerBefore || !submissionStart || !submissionEnd || !resultDate) {
-      return Alert.alert('Missing fields', 'Fill in title, fees, spots, and all four dates');
-    }
+ const handleCreate = async () => {
+  console.log('Create button clicked', { title, prizePool, entryFee, totalSpots, registerBefore, submissionStart, submissionEnd, resultDate });
 
-    const parseDate = (s) => new Date(s.replace(' ', 'T') + ':00');
+  if (!title || !prizePool || !entryFee || !totalSpots || !registerBefore || !submissionStart || !submissionEnd || !resultDate) {
+    console.error('VALIDATION FAILED — a required field is empty. Check the values logged above.');
+    Alert.alert('Missing fields', 'Fill in title, fees, spots, and all four dates');
+    return;
+  }
 
-    setBusy(true);
-    try {
-      await createCompetition({
-        title,
-        tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
-        prizePool: Number(prizePool),
-        entryFee: Number(entryFee),
-        totalSpots: Number(totalSpots),
-        registerBefore: parseDate(registerBefore),
-        submissionStart: parseDate(submissionStart),
-        submissionEnd: parseDate(submissionEnd),
-        resultDate: parseDate(resultDate),
-        aboutText,
-        judgingParams,
-        rulesEligibility,
-        judge: { name: judgeName, title: judgeTitle }
-      });
-      Alert.alert('Created', 'Your competition is live.');
-      onCreated();
-    } catch (err) {
-      Alert.alert('Could not create competition', err.message);
-    } finally {
-      setBusy(false);
-    }
-  };
+  const parseDate = (s) => new Date(s.replace(' ', 'T') + ':00');
+
+  setBusy(true);
+  try {
+    const payload = {
+      title,
+      tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
+      prizePool: Number(prizePool),
+      entryFee: Number(entryFee),
+      totalSpots: Number(totalSpots),
+      registerBefore: parseDate(registerBefore),
+      submissionStart: parseDate(submissionStart),
+      submissionEnd: parseDate(submissionEnd),
+      resultDate: parseDate(resultDate),
+      aboutText,
+      judgingParams,
+      rulesEligibility,
+      judge: { name: judgeName, title: judgeTitle }
+    };
+    console.log('Sending payload:', payload);
+
+    const result = await createCompetition(payload);
+    console.log('SUCCESS:', result);
+    Alert.alert('Created', 'Your competition is live.');
+    onCreated();
+  } catch (err) {
+    console.error('CREATE FAILED:', err.message);
+    Alert.alert('Could not create competition', err.message);
+  } finally {
+    setBusy(false);
+  }
+};
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>
