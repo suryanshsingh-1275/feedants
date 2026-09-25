@@ -63,7 +63,9 @@ cd frontend
 npm install
 
 Edit src/api.js:
-export const API_URL = 'http://<your-LAN-IP>:5050/api';
+export const API_URL = 'http://<your-LAN-IP>:5050/api';/
+export const API_URL = 'http://localhost:5050/api';
+
 npx expo start
 
 
