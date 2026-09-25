@@ -1,5 +1,4 @@
-// Populates the DB with one organizer + one competition matching the
-// provided design, so the app has something to show immediately.
+
 require('dotenv').config();
 const connectDB = require('./config/db');
 const User = require('./models/User');

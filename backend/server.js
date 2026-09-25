@@ -15,7 +15,7 @@ connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/competitions', competitionRoutes);
-// nested under the same base path: /api/competitions/:id/register, /:id/submit, /:id/registrations
+
 app.use('/api/competitions', registrationRoutes);
 
 app.get('/', (req, res) => res.send('Feedants API is running'));
