@@ -1,8 +1,6 @@
 const Competition = require('../models/Competition');
 const Registration = require('../models/Registration');
 
-// Single source of truth for "what phase is this competition in right now".
-// Recomputed on every request from the stored dates — never cached/hardcoded.
 const getLifecycleStatus = (comp, now) => {
   if (now < comp.registerBefore) return 'registration-open';
   if (now < comp.submissionStart) return 'registration-closed';
@@ -77,7 +75,6 @@ exports.getCompetitionDetails = async (req, res) => {
       rewards: comp.rewards,
       previousWinners: comp.previousWinners,
       status,
-      // Server-computed countdown so the client never has to trust its own clock.
       registrationClosesInMs: Math.max(new Date(comp.registerBefore) - now, 0),
       isRegistered: !!registration,
       hasSubmitted: !!(registration && registration.submissionUrl),
